@@ -18,6 +18,22 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/inscripciones.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/visibilidad.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/usuario-suscripciones.php';
 
+/**
+ * Cargar el dominio de traducción para el plugin.
+ */
+function cdb_eventos_load_textdomain() {
+    load_plugin_textdomain( 'cdb-eventos', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+}
+add_action( 'plugins_loaded', 'cdb_eventos_load_textdomain' );
+
+/**
+ * Encolar los estilos del plugin.
+ */
+function cdb_eventos_enqueue_assets() {
+    wp_enqueue_style( 'cdb-eventos', plugins_url( 'assets/cdb-eventos.css', __FILE__ ), array(), '1.0' );
+}
+add_action( 'wp_enqueue_scripts', 'cdb_eventos_enqueue_assets' );
+
 
 // Clase principal del plugin
 class CdB_Eventos {
