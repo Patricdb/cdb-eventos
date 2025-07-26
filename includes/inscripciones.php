@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function cdb_evento_inscripcion_shortcode( $atts ) {
     global $post;
 
-    // Asegurarse de que estamos en un post del tipo 'evento'
-    if ( 'evento' !== $post->post_type ) {
+    // Asegurarse de que estamos en un post de tipo 'evento'
+    if ( ! ( $post instanceof WP_Post ) || 'evento' !== $post->post_type ) {
         return '';
     }
 
@@ -29,7 +29,7 @@ function cdb_evento_inscripcion_shortcode( $atts ) {
     }
 
     // Verificar si el usuario ya está inscrito.
-    if ( in_array( $user_id, $inscripciones ) ) {
+    if ( in_array( $user_id, $inscripciones, true ) ) {
         return '<p>Ya estás inscrito en este evento.</p>';
     }
 
