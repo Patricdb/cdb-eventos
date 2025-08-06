@@ -1,0 +1,28 @@
+.cdb-eventos-mensaje {
+    padding: 10px 15px;
+    margin: 15px 0;
+    border-left: 4px solid transparent;
+}
+.cdb-eventos-mensaje.cdb-eventos-info {
+    background: #e5f5fa;
+    border-color: #46bfe2;
+    color: #0a4b78;
+}
+.cdb-eventos-mensaje.cdb-eventos-exito {
+    background: #e7f8ec;
+    border-color: #46b450;
+    color: #1e5220;
+}
+.cdb-eventos-mensaje.cdb-eventos-aviso {
+    background: #fff8e5;
+    border-color: #ffb900;
+    color: #604400;
+}
+.cdb-eventos-mensaje.cdb-eventos-error {
+    background: #fbeaea;
+    border-color: #dc3232;
+    color: #760000;
+}
+#cdb-eventos-tipos .form-table td input[type="text"] {
+    width: 100%;
+}

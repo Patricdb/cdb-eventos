@@ -56,7 +56,7 @@ function cdb_eventos_lista_shortcode( $atts ) {
                     $now = new DateTime( 'now', wp_timezone() );
                     $interval = $now->diff( $evento_datetime );
                     if ( $interval->invert ) {
-                        $countdown_text = '<p class="countdown">El evento ya ha finalizado.</p>';
+                        $countdown_text = '<p class="countdown">' . esc_html( cdb_eventos_get_mensaje_text( 'evento_finalizado' ) ) . '</p>';
                     } else {
                         $days  = $interval->days;
                         $hours = $interval->h;
@@ -93,7 +93,7 @@ function cdb_eventos_lista_shortcode( $atts ) {
         }
         echo '</div>';
     } else {
-        echo '<p>No hay eventos disponibles.</p>';
+        echo cdb_eventos_get_mensaje( 'sin_eventos' );
     }
     wp_reset_postdata();
 
@@ -166,7 +166,7 @@ function cdb_eventos_lista_block_render( $attributes ) {
         }
         echo '</div>';
     } else {
-        echo '<p>No hay eventos disponibles.</p>';
+        echo cdb_eventos_get_mensaje( 'sin_eventos' );
     }
     wp_reset_postdata();
 

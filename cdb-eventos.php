@@ -12,11 +12,21 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+if ( ! defined( 'CDB_EVENTOS_PATH' ) ) {
+    define( 'CDB_EVENTOS_PATH', plugin_dir_path( __FILE__ ) );
+}
+if ( ! defined( 'CDB_EVENTOS_URL' ) ) {
+    define( 'CDB_EVENTOS_URL', plugin_dir_url( __FILE__ ) );
+}
+
 // Incluir archivos de funcionalidades
-require_once plugin_dir_path( __FILE__ ) . 'includes/meta-boxes.php';
-require_once plugin_dir_path( __FILE__ ) . 'includes/inscripciones.php';
-require_once plugin_dir_path( __FILE__ ) . 'includes/visibilidad.php';
-require_once plugin_dir_path( __FILE__ ) . 'includes/usuario-suscripciones.php';
+require_once CDB_EVENTOS_PATH . 'includes/meta-boxes.php';
+require_once CDB_EVENTOS_PATH . 'includes/inscripciones.php';
+require_once CDB_EVENTOS_PATH . 'includes/visibilidad.php';
+require_once CDB_EVENTOS_PATH . 'includes/usuario-suscripciones.php';
+require_once CDB_EVENTOS_PATH . 'includes/messages.php';
+require_once CDB_EVENTOS_PATH . 'includes/config-mensajes.php';
+require_once CDB_EVENTOS_PATH . 'includes/scripts.php';
 
 /**
  * Cargar el dominio de traducción para el plugin.
@@ -25,15 +35,6 @@ function cdb_eventos_load_textdomain() {
     load_plugin_textdomain( 'cdb-eventos', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
 add_action( 'plugins_loaded', 'cdb_eventos_load_textdomain' );
-
-/**
- * Encolar los estilos del plugin.
- */
-function cdb_eventos_enqueue_assets() {
-    wp_enqueue_style( 'cdb-eventos', plugins_url( 'assets/cdb-eventos.css', __FILE__ ), array(), '1.0' );
-}
-add_action( 'wp_enqueue_scripts', 'cdb_eventos_enqueue_assets' );
-
 
 // Clase principal del plugin
 class CdB_Eventos {
