@@ -19,7 +19,7 @@ function cdb_evento_inscripcion_shortcode( $atts ) {
 
     // Verificar si el usuario está logueado.
     if ( ! is_user_logged_in() ) {
-        return '<p>Debes iniciar sesión para inscribirte en este evento.</p>';
+        return cdb_eventos_get_mensaje( 'login_requerido' );
     }
 
     $user_id = get_current_user_id();
@@ -30,7 +30,7 @@ function cdb_evento_inscripcion_shortcode( $atts ) {
 
     // Verificar si el usuario ya está inscrito.
     if ( in_array( $user_id, $inscripciones, true ) ) {
-        return '<p>Ya estás inscrito en este evento.</p>';
+        return cdb_eventos_get_mensaje( 'ya_inscrito' );
     }
 
     // Procesar la inscripción al recibir el formulario.
@@ -40,7 +40,7 @@ function cdb_evento_inscripcion_shortcode( $atts ) {
         // Agregar el ID del usuario a la lista de inscripciones.
         $inscripciones[] = $user_id;
         update_post_meta( $post->ID, '_cdb_eventos_inscripciones', $inscripciones );
-        return '<p>¡Te has inscrito correctamente en el evento!</p>';
+        return cdb_eventos_get_mensaje( 'inscripcion_ok' );
     }
 
     // Mostrar el formulario de inscripción.
@@ -78,7 +78,7 @@ add_action( 'add_meta_boxes', 'cdb_eventos_inscripciones_meta_box' );
 function cdb_eventos_inscripciones_meta_box_callback( $post ) {
     $inscripciones = get_post_meta( $post->ID, '_cdb_eventos_inscripciones', true );
     if ( ! is_array( $inscripciones ) || empty( $inscripciones ) ) {
-        echo '<p>No hay inscripciones para este evento.</p>';
+        echo '<p>' . esc_html( cdb_eventos_get_mensaje_text( 'sin_inscripciones' ) ) . '</p>';
         return;
     }
     echo '<ul>';
