@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function cdb_eventos_inscritos_shortcode( $atts ) {
     if ( ! is_user_logged_in() ) {
-        return '<p>Debes iniciar sesión para ver tus eventos inscritos.</p>';
+        return '<p>' . esc_html__( 'Debes iniciar sesión para ver tus eventos inscritos.', 'cdb-eventos' ) . '</p>';
     }
 
     $user_id = get_current_user_id();
@@ -37,7 +37,7 @@ function cdb_eventos_inscritos_shortcode( $atts ) {
         if ( $key !== false ) {
             unset( $inscripciones[$key] );
             update_post_meta( $evento_id_to_remove, '_cdb_eventos_inscripciones', $inscripciones );
-            $mensaje_accion = '<p>Has eliminado tu inscripción del evento.</p>';
+            $mensaje_accion = '<p>' . esc_html__( 'Has eliminado tu inscripción del evento.', 'cdb-eventos' ) . '</p>';
         }
     }
 
@@ -60,12 +60,12 @@ function cdb_eventos_inscritos_shortcode( $atts ) {
     $query = new WP_Query( $args );
 
     if ( ! $query->have_posts() ) {
-        return $mensaje_accion . '<p>No estás inscrito en ningún evento.</p>';
+        return wp_kses_post( $mensaje_accion ) . '<p>' . esc_html__( 'No estás inscrito en ningún evento.', 'cdb-eventos' ) . '</p>';
     }
 
     // 3) Mostrar el listado y el botón para eliminar la inscripción
     ob_start();
-    echo $mensaje_accion; // Mensaje tras eliminar la inscripción
+    echo wp_kses_post( $mensaje_accion ); // Mensaje tras eliminar la inscripción
     echo '<div class="cdb-eventos-inscritos-lista">';
 
     while ( $query->have_posts() ) {
@@ -82,15 +82,11 @@ function cdb_eventos_inscritos_shortcode( $atts ) {
                 $now = new DateTime( 'now', wp_timezone() );
                 $interval = $now->diff( $evento_datetime );
                 if ( $interval->invert ) {
-                    $countdown_text = '<p class="countdown">El evento ya ha finalizado.</p>';
+                    $countdown_text = '<p class="countdown">' . esc_html__( 'El evento ya ha finalizado.', 'cdb-eventos' ) . '</p>';
                 } else {
                     $days  = $interval->days;
                     $hours = $interval->h;
-                    $countdown_text = sprintf(
-                        '<p class="countdown">Faltan %d días y %d horas para que comience el evento.</p>',
-                        $days,
-                        $hours
-                    );
+                    $countdown_text = '<p class="countdown">' . sprintf( esc_html__( 'Faltan %d días y %d horas para que comience el evento.', 'cdb-eventos' ), $days, $hours ) . '</p>';
                 }
             }
         }
@@ -98,13 +94,13 @@ function cdb_eventos_inscritos_shortcode( $atts ) {
         echo '<div class="cdb-evento-inscrito-item" style="margin-bottom: 2rem;">';
             echo '<h3 class="evento-title"><span class="dashicons dashicons-calendar" style="margin-right: 5px;"></span> 
                   <a href="' . esc_url( $evento_link ) . '">' . esc_html( $evento_title ) . '</a></h3>';
-            echo $countdown_text;
+            echo wp_kses_post( $countdown_text );
 
             // Agregamos el formulario para eliminar la inscripción
             echo '<form method="post" style="margin-top: 1rem;">';
                 wp_nonce_field( 'cdb_evento_unsub', 'cdb_evento_unsub_nonce' );
                 echo '<input type="hidden" name="evento_id_to_remove" value="' . esc_attr( $evento_id ) . '">';
-                echo '<input type="submit" value="Eliminar inscripción" style="padding: 5px 10px; font-size: 0.8rem;">';
+                echo '<input type="submit" value="' . esc_attr__( 'Eliminar inscripción', 'cdb-eventos' ) . '" style="padding: 5px 10px; font-size: 0.8rem;">';
             echo '</form>';
         echo '</div>';
     }
