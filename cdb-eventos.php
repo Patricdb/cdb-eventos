@@ -5,6 +5,7 @@
  * Version: 1.0.0
  * Author: CdB_
  * License: GPL2
+ * Text Domain: cdb-eventos
  */
 
 // Evitar acceso directo
