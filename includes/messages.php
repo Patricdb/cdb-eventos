@@ -47,6 +47,12 @@ function cdb_eventos_get_mensajes_default() {
             'tipo'      => 'info',
             'mostrar'   => true,
         ),
+        'sin_eventos_usuario' => array(
+            'texto'     => __( 'No estás inscrito en ningún evento.', 'cdb-eventos' ),
+            'secundario'=> '',
+            'tipo'      => 'info',
+            'mostrar'   => true,
+        ),
     );
 }
 

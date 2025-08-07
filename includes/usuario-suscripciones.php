@@ -60,7 +60,7 @@ function cdb_eventos_inscritos_shortcode( $atts ) {
     $query = new WP_Query( $args );
 
     if ( ! $query->have_posts() ) {
-        return wp_kses_post( $mensaje_accion ) . '<p>' . esc_html__( 'No estás inscrito en ningún evento.', 'cdb-eventos' ) . '</p>';
+        return wp_kses_post( $mensaje_accion ) . cdb_eventos_get_mensaje( 'sin_eventos_usuario' );
     }
 
     // 3) Mostrar el listado y el botón para eliminar la inscripción
