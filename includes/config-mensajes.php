@@ -56,6 +56,9 @@ function cdb_eventos_mensajes_admin_page() {
             $ctexto = isset( $_POST['tipos']['color_texto'] ) ? (array) $_POST['tipos']['color_texto'] : array();
             $count  = max( count( $slugs ), count( $nombres ) );
             for ( $i = 0; $i < $count; $i++ ) {
+                if ( ! isset( $slugs[ $i ], $nombres[ $i ], $clases[ $i ], $colores[ $i ], $ctexto[ $i ] ) ) {
+                    continue;
+                }
                 $slug = sanitize_key( $slugs[ $i ] );
                 if ( empty( $slug ) ) {
                     continue;
