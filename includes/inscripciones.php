@@ -48,7 +48,7 @@ function cdb_evento_inscripcion_shortcode( $atts ) {
     ?>
     <form method="post">
         <?php wp_nonce_field( 'cdb_evento_inscripcion', 'cdb_evento_inscripcion_nonce' ); ?>
-        <input type="submit" value="Inscribirse en el evento">
+        <input type="submit" value="<?php echo esc_attr__( 'Inscribirse en el evento', 'cdb-eventos' ); ?>">
     </form>
     <?php
     return ob_get_clean();

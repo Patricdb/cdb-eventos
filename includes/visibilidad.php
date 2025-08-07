@@ -60,11 +60,7 @@ function cdb_eventos_lista_shortcode( $atts ) {
                     } else {
                         $days  = $interval->days;
                         $hours = $interval->h;
-                        $countdown_text = sprintf(
-                            '<p class="countdown">Faltan %d días y %d horas para que comience el evento.</p>',
-                            $days,
-                            $hours
-                        );
+                        $countdown_text = '<p class="countdown">' . sprintf( esc_html__( 'Faltan %d días y %d horas para que comience el evento.', 'cdb-eventos' ), $days, $hours ) . '</p>';
                     }
                 }
             }
@@ -78,22 +74,22 @@ function cdb_eventos_lista_shortcode( $atts ) {
                 </header>
                 <div class="card-body">
                     <?php if ( $ubicacion ) : ?>
-                        <p class="card-text"><strong>Ubicación:</strong> <?php echo esc_html( $ubicacion ); ?></p>
+                        <p class="card-text"><strong><?php esc_html_e( 'Ubicación:', 'cdb-eventos' ); ?></strong> <?php echo esc_html( $ubicacion ); ?></p>
                     <?php endif; ?>
-                    <?php echo $countdown_text; ?>
+                    <?php echo wp_kses_post( $countdown_text ); ?>
                     <div class="cdb-evento-excerpt">
                         <?php the_excerpt(); ?>
                     </div>
                 </div>
                 <footer class="card-footer">
-                    <a href="<?php the_permalink(); ?>" class="btn btn-primary">Ver más</a>
+                    <a href="<?php the_permalink(); ?>" class="btn btn-primary"><?php esc_html_e( 'Ver más', 'cdb-eventos' ); ?></a>
                 </footer>
             </article>
             <?php
         }
         echo '</div>';
     } else {
-        echo cdb_eventos_get_mensaje( 'sin_eventos' );
+        echo wp_kses_post( cdb_eventos_get_mensaje( 'sin_eventos' ) );
     }
     wp_reset_postdata();
 
@@ -153,10 +149,10 @@ function cdb_eventos_lista_block_render( $attributes ) {
             <div class="cdb-evento-item">
                 <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
                 <?php if ( $fecha_hora ) : ?>
-                    <p><strong>Fecha y hora:</strong> <?php echo esc_html( $fecha_hora ); ?></p>
+                    <p><strong><?php esc_html_e( 'Fecha y hora:', 'cdb-eventos' ); ?></strong> <?php echo esc_html( $fecha_hora ); ?></p>
                 <?php endif; ?>
                 <?php if ( $ubicacion ) : ?>
-                    <p><strong>Ubicación:</strong> <?php echo esc_html( $ubicacion ); ?></p>
+                    <p><strong><?php esc_html_e( 'Ubicación:', 'cdb-eventos' ); ?></strong> <?php echo esc_html( $ubicacion ); ?></p>
                 <?php endif; ?>
                 <div class="cdb-evento-excerpt">
                     <?php the_excerpt(); ?>
@@ -166,7 +162,7 @@ function cdb_eventos_lista_block_render( $attributes ) {
         }
         echo '</div>';
     } else {
-        echo cdb_eventos_get_mensaje( 'sin_eventos' );
+        echo wp_kses_post( cdb_eventos_get_mensaje( 'sin_eventos' ) );
     }
     wp_reset_postdata();
 
