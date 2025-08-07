@@ -52,7 +52,7 @@ function cdb_eventos_inscritos_shortcode( $atts ) {
         'meta_query'     => array(
             array(
                 'key'     => '_cdb_eventos_inscripciones',
-                'value'   => $user_id,
+                'value'   => '"' . $user_id . '"',
                 'compare' => 'LIKE'
             )
         )
