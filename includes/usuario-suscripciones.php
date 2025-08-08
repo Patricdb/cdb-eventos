@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function cdb_eventos_inscritos_shortcode( $atts ) {
     if ( ! is_user_logged_in() ) {
-        return '<p>' . esc_html__( 'Debes iniciar sesión para ver tus eventos inscritos.', 'cdb-eventos' ) . '</p>';
+        return cdb_eventos_get_mensaje( 'login_eventos_usuario' );
     }
 
     $user_id = get_current_user_id();

@@ -9,9 +9,15 @@ function cdb_eventos_enqueue_scripts() {
     $tipos = cdb_eventos_get_tipos_color();
     $css = '';
     foreach ( $tipos as $slug => $tipo ) {
-        $bg = isset( $tipo['color'] ) ? $tipo['color'] : '#fff';
-        $color = isset( $tipo['color_texto'] ) ? $tipo['color_texto'] : '#000';
-        $css .= '.cdb-eventos-mensaje.cdb-eventos-' . esc_attr( $slug ) . '{background:' . esc_attr( $bg ) . ';color:' . esc_attr( $color ) . ';}';
+        $bg    = isset( $tipo['bg'] ) ? $tipo['bg'] : '#fff';
+        $color = isset( $tipo['text'] ) ? $tipo['text'] : '#000';
+        $bcolor = isset( $tipo['border_color'] ) ? $tipo['border_color'] : $bg;
+        $bwidth = isset( $tipo['border_width'] ) ? $tipo['border_width'] : '0px';
+        $bradius= isset( $tipo['border_radius'] ) ? $tipo['border_radius'] : '0px';
+        $css .= '.cdb-aviso.cdb-aviso--' . esc_attr( $slug ) . '{background-color:' . esc_attr( $bg ) . ';color:' . esc_attr( $color ) . ';border:' . esc_attr( $bwidth ) . ' solid ' . esc_attr( $bcolor ) . ';border-radius:' . esc_attr( $bradius ) . ';}';
+        if ( '0px' === $bwidth || '0' === $bwidth ) {
+            $css .= '.cdb-aviso.cdb-aviso--' . esc_attr( $slug ) . '{border-left:4px solid ' . esc_attr( $bcolor ) . ';}';
+        }
     }
     if ( $css ) {
         wp_add_inline_style( 'cdb-eventos-config-mensajes', $css );
