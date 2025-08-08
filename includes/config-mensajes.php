@@ -49,25 +49,33 @@ function cdb_eventos_mensajes_admin_page() {
 
         $tipos = array();
         if ( isset( $_POST['tipos'] ) && is_array( $_POST['tipos'] ) ) {
-            $slugs  = isset( $_POST['tipos']['slug'] ) ? (array) $_POST['tipos']['slug'] : array();
-            $nombres= isset( $_POST['tipos']['nombre'] ) ? (array) $_POST['tipos']['nombre'] : array();
-            $clases = isset( $_POST['tipos']['clase'] ) ? (array) $_POST['tipos']['clase'] : array();
-            $colores= isset( $_POST['tipos']['color'] ) ? (array) $_POST['tipos']['color'] : array();
-            $ctexto = isset( $_POST['tipos']['color_texto'] ) ? (array) $_POST['tipos']['color_texto'] : array();
-            $count  = max( count( $slugs ), count( $nombres ) );
+            $slugs   = isset( $_POST['tipos']['slug'] ) ? (array) $_POST['tipos']['slug'] : array();
+            $nombres = isset( $_POST['tipos']['name'] ) ? (array) $_POST['tipos']['name'] : array();
+            $clases  = isset( $_POST['tipos']['class'] ) ? (array) $_POST['tipos']['class'] : array();
+            $bg      = isset( $_POST['tipos']['bg'] ) ? (array) $_POST['tipos']['bg'] : array();
+            $text    = isset( $_POST['tipos']['text'] ) ? (array) $_POST['tipos']['text'] : array();
+            $bcolor  = isset( $_POST['tipos']['border_color'] ) ? (array) $_POST['tipos']['border_color'] : array();
+            $bwidth  = isset( $_POST['tipos']['border_width'] ) ? (array) $_POST['tipos']['border_width'] : array();
+            $bradius = isset( $_POST['tipos']['border_radius'] ) ? (array) $_POST['tipos']['border_radius'] : array();
+            $count   = max( count( $slugs ), count( $nombres ) );
             for ( $i = 0; $i < $count; $i++ ) {
-                if ( ! isset( $slugs[ $i ], $nombres[ $i ], $clases[ $i ], $colores[ $i ], $ctexto[ $i ] ) ) {
+                if ( ! isset( $slugs[ $i ], $nombres[ $i ], $clases[ $i ], $bg[ $i ], $text[ $i ], $bcolor[ $i ], $bwidth[ $i ], $bradius[ $i ] ) ) {
                     continue;
                 }
                 $slug = sanitize_key( $slugs[ $i ] );
                 if ( empty( $slug ) ) {
                     continue;
                 }
+                $bw = trim( $bwidth[ $i ] );
+                $br = trim( $bradius[ $i ] );
                 $tipos[ $slug ] = array(
-                    'nombre'      => sanitize_text_field( $nombres[ $i ] ),
-                    'clase'       => sanitize_html_class( $clases[ $i ] ),
-                    'color'       => sanitize_hex_color( $colores[ $i ] ),
-                    'color_texto' => sanitize_hex_color( $ctexto[ $i ] ),
+                    'name'         => sanitize_text_field( $nombres[ $i ] ),
+                    'class'        => sanitize_html_class( $clases[ $i ] ),
+                    'bg'           => sanitize_hex_color( $bg[ $i ] ),
+                    'text'         => sanitize_hex_color( $text[ $i ] ),
+                    'border_color' => sanitize_hex_color( $bcolor[ $i ] ),
+                    'border_width' => ( is_numeric( $bw ) ? absint( $bw ) . 'px' : sanitize_text_field( $bw ) ),
+                    'border_radius'=> ( is_numeric( $br ) ? absint( $br ) . 'px' : sanitize_text_field( $br ) ),
                 );
             }
         }
@@ -112,16 +120,24 @@ function cdb_eventos_mensajes_admin_page() {
                         <th><?php esc_html_e( 'Clase', 'cdb-eventos' ); ?></th>
                         <th><?php esc_html_e( 'Color', 'cdb-eventos' ); ?></th>
                         <th><?php esc_html_e( 'Color del texto', 'cdb-eventos' ); ?></th>
+                        <th><?php esc_html_e( 'Color del borde', 'cdb-eventos' ); ?></th>
+                        <th><?php esc_html_e( 'Grosor', 'cdb-eventos' ); ?></th>
+                        <th><?php esc_html_e( 'Radio', 'cdb-eventos' ); ?></th>
+                        <th><?php esc_html_e( 'Previsualización', 'cdb-eventos' ); ?></th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php foreach ( $tipos as $slug => $tipo ) : ?>
                     <tr>
                         <td><input type="text" name="tipos[slug][]" value="<?php echo esc_attr( $slug ); ?>" /></td>
-                        <td><input type="text" name="tipos[nombre][]" value="<?php echo esc_attr( $tipo['nombre'] ); ?>" /></td>
-                        <td><input type="text" name="tipos[clase][]" value="<?php echo esc_attr( $tipo['clase'] ); ?>" /></td>
-                        <td><input type="text" class="cdb-color-field" name="tipos[color][]" value="<?php echo esc_attr( $tipo['color'] ); ?>" /></td>
-                        <td><input type="text" class="cdb-color-field" name="tipos[color_texto][]" value="<?php echo esc_attr( $tipo['color_texto'] ); ?>" /></td>
+                        <td><input type="text" name="tipos[name][]" value="<?php echo esc_attr( $tipo['name'] ); ?>" /></td>
+                        <td><input type="text" name="tipos[class][]" value="<?php echo esc_attr( $tipo['class'] ); ?>" /></td>
+                        <td><input type="text" class="cdb-color-field" name="tipos[bg][]" value="<?php echo esc_attr( $tipo['bg'] ); ?>" /></td>
+                        <td><input type="text" class="cdb-color-field" name="tipos[text][]" value="<?php echo esc_attr( $tipo['text'] ); ?>" /></td>
+                        <td><input type="text" class="cdb-color-field" name="tipos[border_color][]" value="<?php echo esc_attr( $tipo['border_color'] ); ?>" /></td>
+                        <td><input type="text" name="tipos[border_width][]" value="<?php echo esc_attr( $tipo['border_width'] ); ?>" class="small-text" /></td>
+                        <td><input type="text" name="tipos[border_radius][]" value="<?php echo esc_attr( $tipo['border_radius'] ); ?>" class="small-text" /></td>
+                        <td class="cdb-preview-cell"><div class="cdb-aviso cdb-aviso-preview"><strong class="cdb-mensaje-destacado"><?php esc_html_e( 'Texto', 'cdb-eventos' ); ?></strong></div><small class="cdb-contraste-aviso" style="display:none;color:#a00;"><?php esc_html_e( 'Contraste bajo', 'cdb-eventos' ); ?></small></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
