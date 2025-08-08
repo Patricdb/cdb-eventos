@@ -78,7 +78,7 @@ add_action( 'add_meta_boxes', 'cdb_eventos_inscripciones_meta_box' );
 function cdb_eventos_inscripciones_meta_box_callback( $post ) {
     $inscripciones = get_post_meta( $post->ID, '_cdb_eventos_inscripciones', true );
     if ( ! is_array( $inscripciones ) || empty( $inscripciones ) ) {
-        echo '<p>' . esc_html( cdb_eventos_get_mensaje_text( 'sin_inscripciones' ) ) . '</p>';
+        echo wp_kses_post( cdb_eventos_get_mensaje( 'sin_inscripciones' ) );
         return;
     }
     echo '<ul>';
